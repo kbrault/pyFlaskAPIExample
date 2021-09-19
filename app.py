@@ -22,18 +22,28 @@ players = [
         "nickname": "Dr. J"
     }]
 
+@app.route('/players/')
+def getPlayers():
+    try:
+        return jsonify(players)
+    except ValueError:
+        abort(400)
+
 
 @app.route('/player/<id>')
-def showPlayer(id):
+def getPlayer(id):
     try:
         idPlayer = int(id)
         result = list(filter(lambda x: x["id"] == idPlayer, players))
 
         if result:
+            # return 200 json result
             return jsonify(result)
+
+        # unknown id
         else:
             abort(404)
 
-    # not and integer id
+    # not an int(id)
     except ValueError:
         abort(400)
